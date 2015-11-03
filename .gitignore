@@ -1,0 +1,8 @@
+# OS X
+.DS_Store
+
+# emacs
+*~
+
+# node
+node_modules

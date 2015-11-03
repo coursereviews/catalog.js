@@ -1,0 +1,27 @@
+{
+  "name": "middlebury-catalog",
+  "version": "0.0.1",
+  "description": "A JavaScript API for the Middlebury course catalog.",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@cliff.cs.middlebury.edu:middcourses/catalog.js.git"
+  },
+  "keywords": [
+    "middlebury",
+    "catalog",
+    "course",
+    "college"
+  ],
+  "author": "Dana Silver",
+  "license": "MIT",
+  "dependencies": {
+    "bluebird": "3.0.x",
+    "lodash": "3.10.x",
+    "request": "2.65.x",
+    "xml2js": "0.4.x"
+  }
+}
