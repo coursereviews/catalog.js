@@ -1,4 +1,17 @@
-Catalog API
----
+# catalog.js
 
-Initial repo for the catalog API.
+A JavaScript API for the Middlebury course catalog.
+
+## Develop
+
+Clone the repository then run
+
+```sh
+$ npm install
+```
+
+and run the tests with
+
+```
+$ npm test
+```
