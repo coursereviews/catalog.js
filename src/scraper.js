@@ -1,14 +1,15 @@
-var Promise = require('bluebird'),
-    _       = require('lodash'),
-    request = Promise.promisifyAll(require('request')),
-    fs      = Promise.promisifyAll(require('fs')),
-    xml2js  = Promise.promisifyAll(require('xml2js'));
+const Promise = require('bluebird'),
+      _       = require('lodash'),
+      request = Promise.promisifyAll(require('request')),
+      fs      = Promise.promisifyAll(require('fs')),
+      xml2js  = Promise.promisifyAll(require('xml2js'));
 
 function createScraper(term) {
-  if (!term)
+  if (!term) {
     throw new Error('parameter `term` is required');
+  }
 
-  var scraper = function () {};
+  const scraper = function () {};
 
   scraper.catalogFromUrl = function () {
     return request.getAsync(getScrapeUrl(term))
@@ -36,8 +37,8 @@ function createScraper(term) {
 module.exports = createScraper;
 
 function getScrapeUrl(term) {
-  var baseUrl = 'http://catalog.middlebury.edu/offerings/searchxml/catalog/catalog%2FMCUG?';
-  var urlParts = {
+  const baseUrl = 'http://catalog.middlebury.edu/offerings/searchxml/catalog/catalog%2FMCUG?';
+  const urlParts = {
     'term': 'term%2F' + term,
     'department': '',
     'type%5B%5D': 'genera%3Aoffering%2FLCT',
