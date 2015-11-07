@@ -1,3 +1,5 @@
+/*eslint no-dupe-keys: 0*/
+
 const Promise = require('bluebird'),
       _       = require('lodash'),
       request = Promise.promisifyAll(require('request')),
