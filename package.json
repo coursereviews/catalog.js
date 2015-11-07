@@ -4,7 +4,8 @@
   "description": "A JavaScript API for the Middlebury course catalog.",
   "main": "index.js",
   "scripts": {
-    "test": "mocha"
+    "test": "mocha",
+    "lint": "./node_modules/eslint/bin/eslint.js **/*.js"
   },
   "repository": {
     "type": "git",
@@ -23,5 +24,8 @@
     "lodash": "3.10.x",
     "request": "2.65.x",
     "xml2js": "0.4.x"
+  },
+  "devDependencies": {
+    "eslint": "^1.8.0"
   }
 }
