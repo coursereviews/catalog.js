@@ -83,8 +83,8 @@ exports.Level = CourseInfo;
 exports.Requirement = CourseInfo;
 exports.CRN = CourseInfo;
 
-const Location = function () {
-  CourseInfo.call(this);
+const Location = function (options) {
+  CourseInfo.call(this, options);
 
   Object.defineProperties(this, {
     'room': {
@@ -117,8 +117,8 @@ const Location = function () {
 };
 exports.Location = Location;
 
-const Instructor = function () {
-  CourseInfo.call(this);
+const Instructor = function (options) {
+  CourseInfo.call(this, options);
 
   Object.defineProperty(this, 'name', {
     get: function () {
@@ -128,8 +128,8 @@ const Instructor = function () {
 };
 exports.Instructor = Instructor;
 
-const Term = function () {
-  CourseInfo.call(this);
+const Term = function (options) {
+  CourseInfo.call(this, options);
 
   Object.defineProperties(this, {
     'season': {
