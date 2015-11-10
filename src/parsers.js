@@ -85,7 +85,7 @@ function parseSchedule(scheduleString) {
   const regex = /(.+)-(.+) on (.+?) (at (.+) (.+) )?\((.+) to (.+)\)/;
   const timeFormat = 'hh:mma';
   const dateFormat = 'MMM DD, YYYY';
-  const schedule = new models.Schedule;
+  const schedule = new models.Schedule({text: scheduleString});
 
   _.each(scheduleString.split('\n'), function (meetingString) {
     const meeting = new models.Meeting({text: meetingString});
