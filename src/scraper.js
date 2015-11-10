@@ -4,7 +4,8 @@ const Promise = require('bluebird'),
       _       = require('lodash'),
       request = Promise.promisifyAll(require('request')),
       fs      = Promise.promisifyAll(require('fs')),
-      xml2js  = Promise.promisifyAll(require('xml2js'));
+      xml2js  = Promise.promisifyAll(require('xml2js')),
+      parse   = require('./parsers');
 
 function createScraper(term) {
   if (!term) {
@@ -19,7 +20,7 @@ function createScraper(term) {
       return xml2js.parseStringAsync(response.body);
     })
     .then(function (xml) {
-      return xml;
+      return parse.parseCatalog(xml);
     });
   };
 
@@ -29,7 +30,7 @@ function createScraper(term) {
       return xml2js.parseStringAsync(file);
     })
     .then(function (xml) {
-      return xml;
+      return parse.parseCatalog(xml);
     });
   };
 
