@@ -1,6 +1,7 @@
 'use strict';
 
 const _ = require('lodash');
+const moment = require('moment');
 const models = require('./models');
 
 exports.parseCatalog = function (catalogObj) {
@@ -31,15 +32,41 @@ function parseCourse(courseObj) {
   course.schedule = parseSchedule(courseObj['catalog:schedule'][0]);
   course.crn = parseCRN(courseObj['catalog:property'][0]);
 
+  // there may be multiple instructors
+  const instructors = courseObj['catalog:instructor'];
+  _.each(instructors, function (instructorObj) {
+    course.instructors.push(parseCourseInfo(instructorObj, models.Instructor));
+  });
+
+  const topics = courseObj['catalog:topic'];
+  _.each(topics, function (topicObj) {
+    const topicType = _.last(topicObj.$.type.split('/'));
+
+    if (topicType === 'subject') {
+      course.subject = parseCourseInfo(topicObj, models.Subject);
+
+    } else if (topicType === 'department') {
+      course.department = parseCourseInfo(topicObj, models.Department);
+
+    } else if (topicType === 'requirement') {
+      course.requirements.push(parseCourseInfo(topicObj, models.Requirement));
+
+    } else if (topicType === 'level') {
+      course.level = parseCourseInfo(topicObj, models.Level);
+    }
+  });
+
   return course;
 }
 
 function parseCourseInfo(obj, model) {
-  if (typeof obj === 'string')
+  if (typeof obj === 'string') {
     return new model({rawId: obj});
+  }
 
-  if (obj === null)
+  if (obj === null) {
     return obj;
+  }
 
   const courseInfo = new model;
 
@@ -55,7 +82,32 @@ function parseCRN(crnObj) {
 }
 
 function parseSchedule(scheduleString) {
-  const schedule = new models.Schedule({text: scheduleString});
+  const regex = /(.+)-(.+) on (.+?) (at (.+) (.+) )?\((.+) to (.+)\)/;
+  const timeFormat = 'hh:mma';
+  const dateFormat = 'MMM DD, YYYY';
+  const schedule = new models.Schedule;
+
+  _.each(scheduleString.split('\n'), function (meetingString) {
+    const meeting = new models.Meeting({text: meetingString});
+
+    const matches = meetingString.match(regex);
+    if (matches) {
+      meeting.startTime = moment(matches[1], timeFormat);
+      meeting.endTime = moment(matches[2], timeFormat);
+      meeting.days = matches[3].split(', ');
+
+      if (matches[4]) {
+        meeting.location = new models.Location({
+          rawId: [matches[5], matches[6]].join('/')
+        });
+      }
+
+      meeting.startDate = moment(matches[7], dateFormat);
+      meeting.endDate = moment(matches[8], dateFormat);
+    }
+
+    schedule.meetings.push(meeting);
+  });
 
   return schedule;
 }

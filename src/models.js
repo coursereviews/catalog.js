@@ -56,7 +56,7 @@ const Meeting = function (options) {
   });
 
   _.extend(this, options);
-}
+};
 exports.Meeting = Meeting;
 
 const CourseInfo = function (options) {
@@ -71,7 +71,7 @@ const CourseInfo = function (options) {
   Object.defineProperty(this, 'id', {
     configurable: true,
     get: function () {
-      return _.last(this.rawId.split('/'))
+      return _.last(this.rawId.split('/'));
     }
   });
 };
@@ -146,5 +146,5 @@ const Term = function (options) {
       }
     }
   });
-}
+};
 exports.Term = Term;
