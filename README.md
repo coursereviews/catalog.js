@@ -1,6 +1,8 @@
-# catalog.js
+## catalog.js
 
-A JavaScript API for the Middlebury course catalog.
+### A JavaScript API for the Middlebury course catalog.
+
+[![Build Status](https://travis-ci.org/coursereviews/catalog.js.svg?branch=master)](https://travis-ci.org/coursereviews/catalog.js)
 
 ## Usage
 
