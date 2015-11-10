@@ -22,7 +22,7 @@
   "dependencies": {
     "bluebird": "3.0.x",
     "lodash": "3.10.x",
-    "moment": "^2.10.6",
+    "moment": "2.10.x",
     "request": "2.65.x",
     "xml2js": "0.4.x"
   },
