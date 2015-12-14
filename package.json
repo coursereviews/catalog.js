@@ -4,8 +4,8 @@
   "description": "A JavaScript API for the Middlebury course catalog.",
   "main": "src/scraper.js",
   "scripts": {
-    "test": "npm run lint",
-    "lint": "./node_modules/eslint/bin/eslint.js **/*.js"
+    "test": "npm run lint && mocha",
+    "lint": "eslint **/*.js"
   },
   "repository": {
     "type": "git",
