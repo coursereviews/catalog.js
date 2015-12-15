@@ -2,9 +2,10 @@
 
 'use strict';
 
-const assert = require('assert');
-const path = require('path');
-const scraper = require('../src/scraper');
+let assert = require('assert');
+let path = require('path');
+let moment = require('moment');
+let scraper = require('../src/scraper');
 
 describe('catalog.js', function () {
   let catalog;
@@ -66,6 +67,81 @@ describe('catalog.js', function () {
 
       assert.equal(course.term.id, '201590');
       assert.equal(course.term.text, 'Fall 2015');
+      assert.equal(course.term.href, 'http://catalog.middlebury.edu/terms/view/catalog/catalog%2FMCUG/term/term%2F201590');
+      assert.equal(course.term.season, 'fall');
+      assert.equal(course.term.year, '2015');
+    });
+
+    it('should parse the department', function () {
+      let course = catalog.courses[0];
+
+      assert.equal(course.department.id, 'AMST');
+      assert.equal(course.department.text, 'Program in American Studies');
+      assert.equal(course.department.href, 'http://catalog.middlebury.edu/topics/view/catalog/catalog%2FMCUG/term/term%2F201590/topic/topic%2Fdepartment%2FAMST');
+    });
+
+    it('should parse the requirements', function () {
+      let course = catalog.courses[0];
+      assert.equal(course.requirements.length, 2);
+
+      let hisRequirement = course.requirements[0];
+      assert.equal(hisRequirement.id, 'HIS');
+      assert.equal(hisRequirement.text, 'HIS');
+      assert.equal(hisRequirement.href, 'http://catalog.middlebury.edu/topics/view/catalog/catalog%2FMCUG/term/term%2F201590/topic/topic%2Frequirement%2FHIS');
+
+      let norRequirement = course.requirements[1];
+      assert.equal(norRequirement.id, 'NOR');
+      assert.equal(norRequirement.text, 'NOR');
+      assert.equal(norRequirement.href, 'http://catalog.middlebury.edu/topics/view/catalog/catalog%2FMCUG/term/term%2F201590/topic/topic%2Frequirement%2FNOR');
+    });
+
+    it('should parse the level', function () {
+      let course = catalog.courses[0];
+
+      assert.equal(course.level.id, 'UG');
+      assert.equal(course.level.text, 'Undergraduate');
+      assert.equal(course.level.href, 'http://catalog.middlebury.edu/topics/view/catalog/catalog%2FMCUG/term/term%2F201590/topic/topic%2Flevel%2FUG');
+    });
+
+    it('should parse the instructor', function () {
+      let course = catalog.courses[0];
+      assert.equal(course.instructors.length, 1);
+
+      let instructor = course.instructors[0];
+
+      assert.equal(instructor.id, 'eb22314a852970f29d9c828dec3265d2');
+      assert.equal(instructor.text, 'Holly Allen');
+      assert.equal(instructor.href, 'http://catalog.middlebury.edu/resources/view/catalog/catalog%2FMCUG/resource/resource%2Fperson%2Feb22314a852970f29d9c828dec3265d2');
+      assert.equal(instructor.name, 'Holly Allen');
+    });
+
+    it('should parse the location', function () {
+      let course = catalog.courses[0];
+
+      assert.equal(course.location.id, 'AXN/229');
+      assert.equal(course.location.text, 'Axinn Center 229');
+      assert.equal(course.location.href, 'http://catalog.middlebury.edu/resources/view/catalog/catalog%2FMCUG/resource/resource%2Fplace%2Froom%2FAXN%2F229');
+      assert.equal(course.location.building, 'AXN');
+      assert.equal(course.location.room, '229');
+    });
+
+    it('should parse the schedule', function () {
+      let course = catalog.courses[0];
+
+      assert.equal(course.schedule.text, '12:15pm-1:30pm on Monday, Wednesday (Sep 16, 2015 to Dec 11, 2015)');
+      assert.equal(course.schedule.meetings.length, 1);
+
+      let meeting = course.schedule.meetings[0];
+      assert.ok(moment('12:15pm', 'hh:mma').isSame(meeting.startTime));
+      assert.ok(moment('1:30pm', 'hh:mma').isSame(meeting.endTime));
+      assert.equal(meeting.days.length, 2);
+      assert.deepEqual(meeting.days, ['Monday', 'Wednesday']);
+      assert.ok(moment('9/16/2015', 'MM/DD/YYYY').isSame(meeting.startDate));
+      assert.ok(moment('12/11/2015', 'MM/DD/YYYY').isSame(meeting.endDate));
+    });
+
+    it('should parse the crn', function () {
+      assert.equal(catalog.courses[0].crn.id, '92348');
     });
   });
 });
